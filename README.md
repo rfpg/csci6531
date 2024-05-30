@@ -1,1 +1,1 @@
-#csci6531 stuff and thangs
+# CSCI6531 stuff and thangs
