@@ -44,15 +44,29 @@ def contains_common_word(decrypted_text, common_words):
             return True
     return False
 
-
 def is_readable_ascii(text):
     return all(32 <= ord(char) <= 126 for char in text)
 
+def score_decrypted_text(decrypted_text):
+    # Calculate a score based on the frequency of common words
+    word_list = decrypted_text.split()
+    common_word_count = sum(word.lower() in common_words for word in word_list)
+    return common_word_count
+
 def try_all_keys(ciphertext, key_length):
+    best_score = -1
+    best_decrypted_text = ""
+    best_key = ""
     for key in generate_ascii_combinations(key_length):
         decrypted_text = vigenere_decrypt(ciphertext, key)
-        if is_readable_ascii(decrypted_text) and contains_common_word(decrypted_text, common_words):
-            print(f"Key: {key}\nDecrypted Text: {decrypted_text}\n")
+        if is_readable_ascii(decrypted_text):
+            score = score_decrypted_text(decrypted_text)
+            if score > best_score:
+                best_score = score
+                best_decrypted_text = decrypted_text
+                best_key = key
+    if best_score > 0:
+        print(f"Best Key: {best_key}\nDecrypted Text: {best_decrypted_text}\n")
 
-key_length = 3 #set the key length
+key_length = 3  # Set the key length
 try_all_keys(ciphertext, key_length)
