@@ -1,16 +1,29 @@
 import itertools
 import string
 
-ciphertext = "ifmmp"  # key is "bb"
+plaintext = "hello"
+key = "bbb"
+
+def vigenere_encrypt_ascii(plaintext, key):
+    encrypted_text = []
+    key_length = len(key)
+    for i, char in enumerate(plaintext):
+        key_char = key[i % key_length]
+        encrypted_char = chr((ord(char) - 32 + ord(key_char) - 32) % 95 + 32)
+        encrypted_text.append(encrypted_char)
+    return ''.join(encrypted_text)
+
+ciphertext = vigenere_encrypt_ascii(plaintext, key)
 
 common_words = [
-    "the", "be", "to", "of", "and", "", "in", "that", "have", "hel",
+    "the", "be", "to", "of", "and", "a", "in", "that", "have", "hello",
     "it", "for", "not", "on", "with", "he", "as", "you", "do", "at"
 ]
 
 def generate_ascii_combinations(n):
-    ascii_characters = ''.join(chr(i) for i in range(32, 127))  # printable char range
-    return itertools.product(ascii_characters, repeat=n)
+    ascii_characters = string.printable[:-6]  # Printable ASCII characters
+    combinations = [''.join(comb) for comb in itertools.product(ascii_characters, repeat=n)]
+    return combinations
 
 def vigenere_decrypt(ciphertext, key):
     decrypted_text = []
@@ -22,10 +35,8 @@ def vigenere_decrypt(ciphertext, key):
     return ''.join(decrypted_text)
 
 def contains_common_word(decrypted_text, common_words):
-    normalized_text = decrypted_text.lower()
-    print(normalized_text)
     for word in common_words:
-        if f' {word} ' in f' {normalized_text} ':
+        if word in decrypted_text:
             return True
     return False
 
@@ -33,12 +44,10 @@ def is_readable_ascii(text):
     return all(32 <= ord(char) <= 126 for char in text)
 
 def try_all_keys(ciphertext, key_length):
-    for key_tuple in generate_ascii_combinations(key_length):
-        key = ''.join(key_tuple)
+    for key in generate_ascii_combinations(key_length):
         decrypted_text = vigenere_decrypt(ciphertext, key)
-        if is_readable_ascii(decrypted_text) and contains_common_word(decrypted_text, common_words):
+        if contains_common_word(decrypted_text, common_words):
             print(f"Key: {key}\nDecrypted Text: {decrypted_text}\n")
-            return  # Stop after finding the first valid key
 
-key_length = 2  # Use kasiski to identify likely key length and try one at a time
+key_length = 3  #set the key length
 try_all_keys(ciphertext, key_length)
