@@ -13,12 +13,12 @@ import string
 #         encrypted_text.append(encrypted_char)
 #     return ''.join(encrypted_text)
 
-# ciphertext = vigenere_encrypt_ascii(plaintext, key)
+#ciphertext = vigenere_encrypt_ascii(plaintext, key)
 
-# problem 1 ciphertext
-# ciphertext = """Xx,#x,vw.))z$m9)qz||9v{~5v~yr/#6.%6&v{!z){~{})59-r.}){%m35!~~p"*)#$).}n9(j(|n9%o9E7LJ2N5t#"x!(j'))AE7PL2JF7IG)&w29vw}5!#$p9)yz$)){)OE2JE99xn(*r'z},z|9=;M><R5r(>79iq~5vz x,~}35x 5|*zl#z|9}j0z)}v{%5o~v}"z{-C)m}n9wr&")#))&%w!A).}r(5j(y)"%x%zmG5]"zr,5o~z}9}j0z)1zk{~w!5k~*!~zw9vu&5o)+{9*x~)79Vu&5|*zl#z|9v{~5o#)qFzj.z{-A)|v}|}r(|).}n9&{~/){/)}~ #$p9{{)#).}n9)~,{j|z7"""
+#problem 1 ciphertext
+#ciphertext = """Xx,#x,vw.))z$m9)qz||9v{~5v~yr/#6.%6&v{!z){~{})59-r.}){%m35!~~p"*)#$).}n9(j(|n9%o9E7LJ2N5t#"x!(j'))AE7PL2JF7IG)&w29vw}5!#$p9)yz$)){)OE2JE99xn(*r'z},z|9=;M><R5r(>79iq~5vz x,~}35x 5|*zl#z|9}j0z)}v{%5o~v}"z{-C)m}n9wr&")#))&%w!A).}r(5j(y)"%x%zmG5]"zr,5o~z}9}j0z)1zk{~w!5k~*!~zw9vu&5o)+{9*x~)79Vu&5|*zl#z|9v{~5o#)qFzj.z{-A)|v}|}r(|).}n9&{~/){/)}~ #$p9{{)#).}n9)~,{j|z7"""
 
-# problem 2 ciphertext
+#problem 2 ciphertext
 ciphertext = """X+wu~)*|q,o4&)ox0xy'}%|u~*};0{s(x~x{0)u}|"}4y$*+q(s$&)*%|vmy$5s#0*ry0-y'|y84Q(m|qzy! |swq"*y'~ny~xo4$+q{u)~(0*ru%5m$##y'q$~4v~}|y$q4(v}4!(kw%~}yt5s#0Vxwyzx)0Zq.!*64`z|*<5U$#zk4q$n4Y$n}qA*v&**)xz*(%(y#wz})0*|ut~~} $*|q)*'u#k}~zn4y$*Wx~xu0vxx0_k%q$64(}o'u5s)0(ous}ox0xy"}z|wyvvA$xk!u5vy'zv4y$*( #o4q(ou$C*]~5Tu!vx@0xy'}%|u~**zy)r}~|*}$5mu|"ox0+uuy5k#t5s(0&o'v%|"uy*v*5k4v~}|u(wu~5u# -x4q)*u~5 (x%8"""
 
 common_words = [
@@ -27,7 +27,7 @@ common_words = [
 ]
 
 def generate_ascii_combinations(n):
-    ascii_characters = string.printable[:-6]  # Printable ASCII characters
+    ascii_characters = string.printable[:-6]  #printable ASCII characters
     combinations = [''.join(comb) for comb in itertools.product(ascii_characters, repeat=n)]
     return combinations
 
@@ -52,7 +52,8 @@ def is_readable_ascii(text):
     return all(32 <= ord(char) <= 126 for char in text)
 
 def score_decrypted_text(decrypted_text):
-    # Calculate a score based on the frequency of common words
+    
+    #score based on the frequency of common words; keep track of key with the most and output that bad boy
     word_list = decrypted_text.split()
     common_word_count = sum(word.lower() in common_words for word in word_list)
     return common_word_count
